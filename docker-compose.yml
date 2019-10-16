@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
 
-  tic-tac-toe.react.rdok.dev:
+  rdok.dev:
     build:
       context: .
       dockerfile: Dockerfile
