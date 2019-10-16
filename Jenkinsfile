@@ -23,7 +23,9 @@ pipeline {
             docker run --rm -v jenkinsrdokdev_jenkins.rdok.dev:"$JENKINS_HOME" \
                 -w "$WORKSPACE" node:12-alpine sh -c \
                 "yarn install; yarn run build"
+            docker-compose build --pull 
             docker-compose down
+            docker-compose up -d
             ''' }
         }
     }
