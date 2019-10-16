@@ -40,9 +40,9 @@ pipeline {
             allowMissing: false,
             alwaysLinkToLastBuild: true,
             keepAll: false,
-            reportFiles: 'report/lcov-report/index.html',
-            reportName: 'Report',
-            reportDir: '.'
+            reportFiles: '/index.html',
+            reportName: 'Coverage Report',
+            reportDir: 'report/lcov-report'
             ])
         }
     }
