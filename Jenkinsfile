@@ -10,10 +10,9 @@ pipeline {
         } }
         stage('Test') { steps { ansiColor('xterm') {
             sh '''
-            export CI=true;
-            docker run --rm -v $(pwd):/app -w /app node:12-alpine \
-                ./node_modules/react-scripts/bin/react-scripts.js test \
-                 --coverage   --coverageDirectory='./report'
+            docker run -e CI=true -it --rm -v $(pwd):/app -w /app \
+                node:12-alpine yarn run test  --coverage \
+                --coverageDirectory='./report' --ci            
             '''
         } } }
     }
@@ -40,9 +39,9 @@ pipeline {
             allowMissing: false,
             alwaysLinkToLastBuild: true,
             keepAll: false,
-            reportFiles: '/index.html',
+            reportFiles: 'index.html',
             reportName: 'Coverage Report',
-            reportDir: 'report/lcov-report'
+            reportDir: 'report/lcov-report/'
             ])
         }
     }
