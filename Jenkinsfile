@@ -10,23 +10,18 @@ pipeline {
         DEFAULT_EMAIL = credentials('rdok-email')
     }
     stages {
-        stage('Build') { steps { 
+        stage('Test') { steps { 
             sh '''
-            docker run --rm -v $(pwd):/app -w /app node:12-alpine yarn install
+            docker run -e CI=true --rm -v $(pwd):/app -w /app node:12-alpine \
+                sh -c \
+            "yarn install; yarn run test  --coverage --coverageDirectory='./report' --ci"
             '''
         } }
-        stage('Test') { steps { ansiColor('xterm') {
-            sh '''
-            docker run -e CI=true --rm -v $(pwd):/app -w /app \
-                node:12-alpine yarn run test  --coverage \
-                --coverageDirectory='./report' --ci            
-            '''
-        } } }
         stage('Deploy') {
             agent { label "rdok.dev" }
             steps { sh '''
-            docker run -e --rm -v $(pwd):/app -w /app \
-                node:12-alpine yarn run build
+            docker run --rm -v $(pwd):/app -w /app node:12-alpine sh -c \
+                "yarn install; yarn run build"
             docker-compose build --pull 
             docker-compose down
             docker-compose up -d
