@@ -24,7 +24,7 @@ pipeline {
                 -w "$WORKSPACE" node:12-alpine sh -c \
                 "yarn install; yarn run build"
             docker-compose build --pull 
-            docker-compose down
+            docker-compose down --remove-orphans 
             docker-compose up -d
             ''' }
         }
