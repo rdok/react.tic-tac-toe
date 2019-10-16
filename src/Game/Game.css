@@ -1,12 +1,12 @@
-.App {
+.Game {
   text-align: center;
 }
 
-.App-logo {
+.Game-logo {
   height: 40vmin;
 }
 
-.App-header {
+.Game-header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -17,6 +17,6 @@
   color: white;
 }
 
-.App-link {
+.Game-link {
   color: #09d3ac;
 }
