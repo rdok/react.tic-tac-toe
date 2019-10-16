@@ -20,7 +20,13 @@ pipeline {
         stage('Deploy') {
             agent { label "rdok.dev" }
             steps { sh '''
-            docker run --rm -v $(pwd):/app -w /app node:12-alpine sh -c \
+            printenv
+
+            docker run --rm -v jenkinsrdokdev_jenkins.rdok.dev/var/jenkins_home/workspace/tic-tac-toe:/app -w /app node:12-alpine ls -lat /app
+
+
+
+            docker run --rm  -e CI=true -v $(pwd):/app -w /app node:12-alpine sh -c \
                 "yarn install; yarn run build"
             docker-compose build --pull 
             docker-compose down
