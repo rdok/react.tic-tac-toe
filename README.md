@@ -1,3 +1,9 @@
+[![Build Status](https://jenkins.rdok.dev/buildStatus/icon?job=tic-tac-toe)](https://jenkins.rdok.dev/view/React/job/tic-tac-toe/)
+
+## Hands On Learning - React - TicTacToe
+
+***
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
