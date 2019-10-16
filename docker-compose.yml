@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+
+  rdok.dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      - VIRTUAL_HOST
+      - VIRTUAL_PORT
+      - LETSENCRYPT_HOST
+      - LETSENCRYPT_EMAIL
+    ports:
+      - "${VIRTUAL_PORT}:80"
+
+
+networks:
+  default:
+    external:
+      name: nginx-proxy

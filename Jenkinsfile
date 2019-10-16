@@ -2,6 +2,13 @@ pipeline {
     agent { label "linux" }
     triggers { cron('H H(18-19) * * *') }
     options { buildDiscarder( logRotator( numToKeepStr: '30' ) ) }
+    environment {
+        VIRTUAL_HOST = credentials('virtual-host-tic-tac-toe-react')
+        VIRTUAL_PORT = credentials('virtual-port-tic-tac-toe-react')
+        LETSENCRYPT_HOST = credentials('letsencrypt-host-tic-tac-toe-react')
+        LETSENCRYPT_EMAIL = credentials('rdok-email')
+        DEFAULT_EMAIL = credentials('rdok-email')
+    }
     stages {
         stage('Build') { steps { 
             sh '''
@@ -15,6 +22,16 @@ pipeline {
                 --coverageDirectory='./report' --ci            
             '''
         } } }
+        stage('Deploy') {
+            agent { label "rdok.dev" }
+            steps { sh '''
+            docker run -e --rm -v $(pwd):/app -w /app \
+                node:12-alpine yarn run build
+            docker-compose build --pull 
+            docker-compose down
+            docker-compose up -d
+            ''' }
+        }
     }
     post {
         failure {

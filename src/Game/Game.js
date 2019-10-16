@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './../logo.svg';
 import './Game.css';
 import Board from './../Board/Board';
 
