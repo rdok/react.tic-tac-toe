@@ -1,3 +1,4 @@
+pipeline {
     agent { label "linux" }
     triggers { cron('H H(18-19) * * *') }
     options { buildDiscarder( logRotator( numToKeepStr: '30' ) ) }
