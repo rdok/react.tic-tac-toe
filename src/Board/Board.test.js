@@ -90,3 +90,34 @@ it('declares a winner', () => {
     expect(container.innerHTML)
         .toContain('<div class="status">Winner: X</div>')
 })
+
+it('ends the game when a winner is declared', () => {
+    const mock = jest
+        .fn()
+        .mockReturnValue(false)
+        .mockReturnValueOnce(false)
+        .mockReturnValueOnce(true)
+
+    
+    let board
+    act(() => { board = render(<Board  />, container) })
+    board.calculateWinner = mock
+    let actual = container.textContent
+    expect(actual) .toEqual('Next player: X      ')
+
+    board.handleClick(0)
+    actual = container.textContent
+    expect(actual).toEqual('Winner: trueX      ')
+
+    board.handleClick(1)
+    expect(actual).toEqual('Winner: trueX      ')
+})
+
+it('ignores a marking if it has been filed', () => {
+    let board
+    act(() => { board = render(<Board  />, container) })
+    board.handleClick(0)
+    expect(container.textContent).toEqual('Next player: OX      ')
+    board.handleClick(0)
+    expect(container.textContent).toEqual('Next player: OX      ')
+})
