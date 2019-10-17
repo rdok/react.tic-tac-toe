@@ -76,3 +76,17 @@ it('notifies which player is next', () => {
     expect(container.innerHTML)
         .toContain('<div class="status">Next player: O</div>')
 })
+
+it('declares a winner', () => {
+    let board
+    act(() => { board = render(<Board  />, container) })
+    expect(container.innerHTML)
+        .toContain('<div class="status">Next player: X</div>')
+
+    for (let step = 0; step < 9; step++) {
+        board.handleClick(step)
+    }
+
+    expect(container.innerHTML)
+        .toContain('<div class="status">Winner: X</div>')
+})
