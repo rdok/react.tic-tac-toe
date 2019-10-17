@@ -31,14 +31,9 @@ pipeline {
     }
     post {
         failure {
-            slackSend color: '#FF0000',
-            message: "@here Failed: <${env.BUILD_URL}console | ${env.JOB_BASE_NAME}#${env.BUILD_NUMBER}>"
-            emailext attachLog: true,
-            body: """<p>View console output at <a href='${env.BUILD_URL}/console'>
-                ${env.JOB_BASE_NAME}#${env.BUILD_NUMBER}</a></p>""",
-            compressLog: true,
-            recipientProviders: [[$class: 'DevelopersRecipientProvider']],
-            subject: "Failed: <${env.BUILD_URL}console | ${env.JOB_BASE_NAME}#${env.BUILD_NUMBER}>"
+            emailext body: "Failure -- Console output at $BUILD_URL.",
+                subject: 'Failure: $BUILD_DISPLAY_NAME | $JOB_BASE_NAME', 
+                to: "${AUTHOR_EMAIL}"
         }
         fixed {
             slackSend color: 'good',
