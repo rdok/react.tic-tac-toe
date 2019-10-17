@@ -40,20 +40,7 @@ it('may render an empty square', () => {
     expect(actual).toStrictEqual(expected)
 });
 
-it('may render an X square', () => {
-    act(() => { render(<Square value={"X"} />, container) })
-    let expected = container.innerHTML
-
-    let board = new Board()
-    board.state.squares[5] = 'X'
-    let boardSquare = board.renderSquare(5)
-    act(() => { render(boardSquare, container) })
-    let actual = container.innerHTML
-
-    expect(actual).toStrictEqual(expected)
-});
-
-it('it sets a square', () => {
+it('it marks a square', () => {
     act(() => { render(<Square value={"X"} />, container) })
     let expected = container.innerHTML
 
@@ -63,5 +50,29 @@ it('it sets a square', () => {
     let actual = container.innerHTML
 
     expect(actual).toContain(expected);
+})
 
+it('sets X player as starter', () => {
+    let board = new Board
+    expect(board.state).toHaveProperty('xIsNext', true) 
+})
+
+it('flipps next player turn', () => {
+    let board
+    act(() => { board = render(<Board  />, container) })
+    board.handleClick(0)
+
+    expect(board.state).toHaveProperty('xIsNext', false) 
+    expect(board.state.squares[0]).toEqual('X') 
+})
+
+it('notifies which player is next', () => {
+    let board
+    act(() => { board = render(<Board  />, container) })
+    expect(container.innerHTML)
+        .toContain('<div class="status">Next player: X</div>')
+
+    board.handleClick(0)
+    expect(container.innerHTML)
+        .toContain('<div class="status">Next player: O</div>')
 })
