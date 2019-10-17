@@ -31,9 +31,8 @@ pipeline {
     }
     post {
         failure {
-            emailext body: "Failure -- Console output at $BUILD_URL.",
-                subject: 'Failure: $BUILD_DISPLAY_NAME | $JOB_BASE_NAME', 
-                to: "${AUTHOR_EMAIL}"
+            slackSend color: '#FF0000',
+            message: "@here Failed: <${env.BUILD_URL}console | ${env.JOB_BASE_NAME}#${env.BUILD_NUMBER}>"
         }
         fixed {
             slackSend color: 'good',
