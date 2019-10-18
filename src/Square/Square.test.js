@@ -19,12 +19,17 @@ it('renders without crashing', () => {
     act(() => { render(<Square />, container) })
 })
 
-it('calls the onClick props callback', () => {
-    const onClick = jest.fn()
-    act(() => { render(<Square onClick={onClick} />, container) })
-    const square = document.querySelector("[data-testid=square]")
-    act(() => { square.dispatchEvent(new MouseEvent("click", { bubbles: true })) })
+it('may render a clickbable button', () => {
+    const mock = jest.fn()
+    let props = {onClick: mock}
+    let square = new Square(props)
 
-    expect(onClick).toHaveBeenCalledTimes(1)
+    act(() => {
+        render(square, container) 
+        const button = document.querySelector("[data-testid=square-button]")
+        button.dispatchEvent(new MouseEvent("click", { bubbles: true })) 
+    })
+
+    expect(mock).toHaveBeenCalled()
 })
 
