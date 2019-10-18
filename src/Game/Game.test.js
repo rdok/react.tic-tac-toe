@@ -39,19 +39,25 @@ it('sets up the starting step', () => {
 })
 
 describe('jumptTo', () => {
+     // :( TODO: direct instead of indirect test through handleClick
     it('sets the step number', () => {
         let game
         act(() => { game = render(<Game />, container) })
-        game.jumpTo(5)
-        expect(game.state.stepNumber).toEqual(5)
+        game.handleClick(0)
+        expect(game.state.stepNumber).toEqual(1)
     })
 
     it('sets xIsNext depending on the stepNumber', () => {
         let game
         act(() => { game = render(<Game />, container) })
-        game.jumpTo(5)
+        game.jumpTo(0)
+        expect(game.state.xIsNext).toEqual(true)
+
+        game.handleClick(0) 
+        game.jumpTo(1)
         expect(game.state.xIsNext).toEqual(false)
-        game.jumpTo(4)
+        game.handleClick(2) 
+        game.jumpTo(2)
         expect(game.state.xIsNext).toEqual(true)
     })
 })
